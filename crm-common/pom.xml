@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.shsxt</groupId>
-	<artifactId>Util</artifactId>
+	<artifactId>crm-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Util</name>
 	<url>http://maven.apache.org</url>
@@ -18,15 +18,15 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.39</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
 </project>

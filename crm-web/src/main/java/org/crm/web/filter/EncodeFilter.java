@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 @WebFilter(urlPatterns = "/*", initParams = { @WebInitParam(name = "charset", value = "utf-8") })
-public class CharsetFilter implements Filter {
+public class EncodeFilter implements Filter {
 	public static FilterConfig config = null;
 
 	@Override
@@ -27,7 +27,6 @@ public class CharsetFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		response.setContentType("text/html;charset="+config.getInitParameter("charset"));
 		String serverInfo = request.getServletContext().getServerInfo();
-		System.out.println(serverInfo);
 		int idx = serverInfo.lastIndexOf("/");
 		String version = serverInfo.substring(idx+1, idx+2);
 		if("post".equalsIgnoreCase(((HttpServletRequest)request).getMethod())) {
@@ -62,7 +61,6 @@ public class CharsetFilter implements Filter {
 			try {
 				str = new String(param.getBytes("ISO-8859-1"), charset);
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return str;

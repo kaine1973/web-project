@@ -15,14 +15,13 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<modules>
 		<module>crm-dao</module>
 		<module>crm-service</module>
 		<module>crm-web</module>
-		<module>Util</module>
+		<module>crm-common</module>
 	</modules>
 
 	<build>
