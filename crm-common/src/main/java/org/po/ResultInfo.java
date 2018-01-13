@@ -1,6 +1,10 @@
 package org.po;
 
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 import java.util.List;
+
 
 public class ResultInfo<T> {
     private int status;

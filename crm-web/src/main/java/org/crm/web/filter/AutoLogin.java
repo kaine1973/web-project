@@ -1,10 +1,8 @@
 package org.crm.web.filter;
 
-import org.crm.dao.User;
 import org.crm.service.UserService;
-import org.crm.web.UserController;
 import org.po.ResultInfo;
-import org.po.Tb_user;
+import org.po.Web_User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -43,14 +41,14 @@ public class AutoLogin implements Filter {
         }
         String name = auto.split("_")[0];
         String pwd = auto.split("_")[1];
-        String sql = "SELECT ID,NAME,PWD,AGE,NICK,HEAD,LABEL FROM TB_USER WHERE NAME = ? AND PWD = ?";
+        String sql = "SELECT ID,UNAME,PWD,AGE,NICK,HEAD,MOOD FROM WEB_USER WHERE UNAME = ? AND PWD = ?";
 
-        ResultInfo<List<Tb_user>> res = UserService.query(sql, new Object[]{name, pwd});
+        ResultInfo<List<Web_User>> res = UserService.query(sql, new Object[]{name, pwd});
         System.out.println(res.getT());
         if(res.getT()!=null){
-            List<Tb_user> t = res.getT();
-            Tb_user tu = t.iterator().next();
-            System.out.println(tu.getName());
+            List<Web_User> t = res.getT();
+            Web_User tu = t.iterator().next();
+            System.out.println(tu.getUname());
             request.getSession().setAttribute("user", tu);
             request.setAttribute("result",res);
             response.sendRedirect("main.jsp");

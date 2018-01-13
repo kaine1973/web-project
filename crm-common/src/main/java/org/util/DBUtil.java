@@ -11,7 +11,7 @@ public class DBUtil {
     public static Connection getConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/web?useUnicode=true&characterEncoding=utf-8&useSSL=false", "root", "admin");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/web?useUnicode=true&characterEncoding=utf8", "root", "admin");
             System.out.println("数据库连接成功");
             return conn;
         } catch (ClassNotFoundException e) {

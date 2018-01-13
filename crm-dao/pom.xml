@@ -14,9 +14,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.shsxt</groupId>
-			<artifactId>Util</artifactId>
+			<artifactId>crm-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 </project>

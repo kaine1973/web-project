@@ -1,13 +1,24 @@
 package org.po;
 
-public class Tb_user {
+public class Web_User {
     private int id;
-    private String name;
+    private String uname;
     private String pwd;
     private byte age;
     private String nick;
     private String head;
-    private String label;
+    private String mood;
+
+
+    public Web_User(int id, String uname, String pwd, byte age, String nick, String head, String mood) {
+        this.id = id;
+        this.uname = uname;
+        this.pwd = pwd;
+        this.age = age;
+        this.nick = nick;
+        this.head = head;
+        this.mood = mood;
+    }
 
     public int getId() {
         return id;
@@ -17,12 +28,12 @@ public class Tb_user {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUname() {
+        return uname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUname(String uname) {
+        this.uname = uname;
     }
 
     public String getPwd() {
@@ -57,26 +68,16 @@ public class Tb_user {
         this.head = head;
     }
 
-    public String getLabel() {
-        return label;
+    public String getMood() {
+        return mood;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 
-    public Tb_user() {
+    public Web_User() {
 
-    }
-
-    public Tb_user(int id, String name, String pwd, byte age, String nick, String head, String label) {
-
-        this.id = id;
-        this.name = name;
-        this.pwd = pwd;
-        this.age = age;
-        this.nick = nick;
-        this.head = head;
-        this.label = label;
     }
 }
+

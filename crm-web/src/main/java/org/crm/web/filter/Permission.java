@@ -1,6 +1,6 @@
 package org.crm.web.filter;
 
-import org.po.Tb_user;
+import org.po.Web_User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -17,7 +17,7 @@ public class Permission implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse)resp;
-        Tb_user user = (Tb_user)request.getSession().getAttribute("user");
+        Web_User user = (Web_User)request.getSession().getAttribute("user");
         String act = request.getParameter("act");
         String requestURI = request.getRequestURI();
         if(requestURI.contains("login.jsp")||requestURI.contains("register.jsp")||"login".equals(act)||"register".equals(act)||"logout".equals(act)){
@@ -27,6 +27,8 @@ public class Permission implements Filter {
         if(user==null){
             response.sendRedirect("login.jsp");
             return;
+        }else{
+            chain.doFilter(req,resp);
         }
     }
 
