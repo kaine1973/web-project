@@ -39,7 +39,7 @@ public class ArticleController extends HttpServlet {
         list.add(user.getId());
         ResultInfo<List<Web_Article>> ri = listArticle(sql, list.toArray());
         try {
-            request.getSession().setAttribute("articleResult",ri);
+            request.getSession().setAttribute("listArticle",ri);
             response.getWriter().write(ri.getStatus());
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class ArticleController extends HttpServlet {
         list.add(user.getId());
         ResultInfo<List<Web_Article>> ri = ArticleService.update(sql, list.toArray());
         try {
-            request.getSession().setAttribute("articleResult",ri);
+            request.getSession().setAttribute("newArticle",ri);
             response.getWriter().write("/article/article.jsp");
         } catch (IOException e) {
             e.printStackTrace();

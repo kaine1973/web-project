@@ -5,19 +5,21 @@
 <html>
 <title>主页</title>
 <head>
+    <link rel="icon" href="https://v3.bootcss.com/favicon.ico">
+
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="bs/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="bs/css/bootstrap-theme.css" crossorigin="anonymous">
+    <script src="bs/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+    <script src="easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/material/easyui.css"/>
+    <link rel="stylesheet" href="easyui/themes/icon.css"/>
     <meta charset="utf-8"/>
     <title></title>
 
 </head>
 
-<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="bs/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="bs/css/bootstrap-theme.css" crossorigin="anonymous">
-<script src="bs/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
-<script src="easyui/locale/easyui-lang-zh_CN.js"></script>
-<link rel="stylesheet" type="text/css" href="easyui/themes/material/easyui.css"/>
-<link rel="stylesheet" href="easyui/themes/icon.css"/>
 <style>
     body {
 
@@ -73,8 +75,8 @@
     </div>
 </div>
 
-<div id="divcenter" data-options="region:'center'">
-    <div id="tt" class="easyui-tabs" style="height: 100%; font-size: 100%;">
+<div id="divcenter" data-options="region:'center'" >
+    <div id="tt" class="easyui-tabs" style="height: 99%; font-size: 100%;">
 
     </div>
 </div>
@@ -91,10 +93,32 @@
 
 </div>
 
-
-<div></div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div id="myModalbody" class="modal-body">
+                ...
+            </div>
+            <div id="myModalDate"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script type="text/javascript">
+    function showModal(title,content,date) {
+        $('#myModalLabel').html(title);
+        $('#myModalbody').html(content);
+        $('#myModalDate').html(date);
+        $('#myModal1').modal('show');
+    }
     function listMyArticle(text, url) {
         $.ajax({
             url: 'articleMgr.do',

@@ -26,7 +26,7 @@
 <div class="container">
     <div class="form-group">
         <label for="title">标题</label>
-        <input type="text" class="form-control" id="title" placeholder="输入标题" value="" required="required" maxlength="20" />
+        <input type="text" class="form-control" id="title" placeholder="输入标题" value="" required="required" maxlength="100" />
     </div><div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
     <div class="btn-group">
         <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
@@ -89,7 +89,6 @@
        var content = $('#editor').html();
        var title = $('#title').val();
         if(content.length==0||title==""){
-           alert(content.length+"---"+title.length);
            return;
         }
         $.ajax({
@@ -101,7 +100,7 @@
                 content:content
             },
             success:function(data){
-                    alert('${articleResult.msg}');
+                    alert('${newArticle.msg}');
             },
             error:function(){
                 alert('保存失败')
