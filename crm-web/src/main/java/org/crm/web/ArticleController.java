@@ -26,6 +26,49 @@ public class ArticleController extends HttpServlet {
             newArticle(request,response);
         }else if("list".equals(act)){
             list(request,response);
+        }else if ("delete".equals(act)){
+            deleteArticle(request,response);
+        }else if("querySingle".equals(act)){
+            querySingle(request,response);
+        }
+    }
+
+    private void querySingle(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        Web_User user = (Web_User)request.getSession().getAttribute("user");
+        if (StringUtil.isNullorEmpty(id)){
+            return;
+        }
+        String sql = "select id, title, content, create_date, update_date, uid from Web_Article where id = ?";
+
+        List<Object> list = new ArrayList<Object>();
+        list.add(Integer.valueOf(id));
+        ResultInfo<List<Web_Article>> ri = listArticle(sql, list.toArray());
+        try {
+            request.getSession().setAttribute("singleArticle",ri.getT());
+            response.getWriter().write(ri.getStatus());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteArticle(HttpServletRequest request, HttpServletResponse response) {
+        Web_User user = (Web_User)request.getSession().getAttribute("user");
+        String aid = request.getParameter("id");
+        if(StringUtil.isNullorEmpty(aid)){
+            return;
+        }
+        Integer id = Integer.valueOf(aid);
+        String sql = "DELETE FROM WEB_ARTICLE WHERE UID = ? AND ID = ?";
+        List<Object> list = new ArrayList<>();
+        list.add(user.getId());
+        list.add(aid);
+        ResultInfo ri = ArticleService.deleteArticle(sql, list.toArray());
+        request.getSession().setAttribute("deleteArticle",ri);
+        try {
+            response.getWriter().write(ri.getStatus()+"");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

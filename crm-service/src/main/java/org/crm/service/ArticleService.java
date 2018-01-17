@@ -50,4 +50,23 @@ public class ArticleService {
         return ri;
 
     }
+
+    public static ResultInfo deleteArticle(String sql, Object[] objects) {
+        ResultInfo<List<Web_Article>> ri = new ResultInfo();
+        try {
+            int res = ArticleDao.delete(sql, objects);
+            if(res>0){
+               ri.setStatus(1);
+                ri.setMsg("删除成功");
+            }else{
+                ri.setStatus(0);
+                ri.setMsg("删除失败");
+            }
+        } catch (SQLException e) {
+            ri.setStatus(0);
+            ri.setMsg("删除失败"+e.getMessage());
+            System.out.println("删除文章时的数据库异常");
+        }
+        return ri;
+    }
 }

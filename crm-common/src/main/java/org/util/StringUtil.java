@@ -18,12 +18,19 @@ public final class StringUtil {
 	 * @return
 	 */
 	public static boolean isNullorEmpty(final String str) {
-		
-		if (str == null && "".equals(str)) {
+
+		if (null == str) {
 			return true;
+		}else {
+			if ("".equals(str.trim())) {
+				return true;
+			} else {
+				return false;
+			}
 		}
-		
-		return false;
+	}
+	public static String firstChar2Upper(String str){
+		return str.toUpperCase().charAt(0)+str.substring(1);
 	}
 	/**
 	 * md5加密

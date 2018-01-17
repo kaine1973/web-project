@@ -3,6 +3,7 @@ package org.crm.dao;
 import org.po.Web_Article;
 import org.springframework.stereotype.Component;
 import org.util.DBUtil;
+import sun.security.pkcs11.Secmod;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,4 +45,13 @@ public class ArticleDao {
         return list;
     }
 
+    public static int delete(String sql, Object[] obj) throws SQLException {
+        Connection conn = DBUtil.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        for (int i = 0; i < obj.length; i++) {
+            ps.setObject(i + 1, obj[i]);
+        }
+        int i = ps.executeUpdate();
+        return i;
+    }
 }

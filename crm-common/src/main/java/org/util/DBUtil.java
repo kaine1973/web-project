@@ -1,9 +1,7 @@
 package org.util;
 
 import javax.smartcardio.CommandAPDU;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 public class DBUtil {
@@ -12,7 +10,6 @@ public class DBUtil {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/web?useUnicode=true&characterEncoding=utf8", "root", "admin");
-            System.out.println("数据库连接成功");
             return conn;
         } catch (ClassNotFoundException e) {
             System.out.println("驱动类异常"+e.getMessage()+e.getStackTrace());
@@ -20,6 +17,29 @@ public class DBUtil {
         } catch (SQLException e) {
             System.out.println("数据库连接异常"+e.getMessage()+e.getStackTrace());
             return null;
+        }
+    }
+    public static void  close(ResultSet rs, PreparedStatement ps, Connection conn){
+        try {
+            if(rs!=null){
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if(ps!=null){
+                ps.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            if(conn!=null){
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

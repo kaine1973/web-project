@@ -40,13 +40,13 @@
     <button class="btn btn-danger">查找</button>
     <ul id="mgbtn" class="list-group">
 
-        <c:forEach items="${listArticle.t}" var="article">
+        <c:forEach items="${listArticle.t}" var="article" >
             <li class="list-group-item">
                 <input type="hidden" id="id" value="${article.id }"/>
                 <div id="content${article.id }" hidden="hidden">${article.content }</div>
                 <a href="javascript:showModal('${article.id }','${article.title }','${article.update_date }','${article.create_date }')"><span style="font-size: large">${article.title }</span></a>
                 <div class="test" style="float: left;margin-right: 5px" hidden=true>
-                <button class="btn btn-warning btn-sm" onclick="alterThisArticle(${article.id })">修改</button>
+                <button class="btn btn-warning btn-sm" onclick="alterThisArticle('${article.title }','${article.id }')">修改</button>
                 <button class="btn btn-danger btn-sm" onclick="deleteThisArticle(${article.id })">删除</button>
                 </div>
                 <span style="font-size: small;float: right;">最后一次修改：${article.update_date }</span>
@@ -56,31 +56,50 @@
         </c:forEach>
     </ul>
 </c:if>
-<!-- 查看文章的模态框 -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div id="myModalbody" class="modal-body">
-                ...
-            </div>
-            <div id="myModalDate"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </body>
 <script>
+    function alterThisArticle(title,id) {
+        $.ajax({
+            url:'../articleMgr.do',
+            type:'POST',
+            data:{
+                act:'querySingle',
+                id:id
+            },
+            success:function (data) {
+                window.parent.addTab('修改文章','../article/edit.jsp');
+            }
+        })
+    }
+    function deleteThisArticle(id) {
+        var content = $("#content"+id).parent();
+        var conf = confirm('Are you sure?');
+        if(!conf){
+            return;
+        }else{
+            $.ajax({
+                url:'../articleMgr.do',
+                type:'POST',
+                data:{
+                    act:'delete',
+                    id:id
+                },
+                success:function (data) {
+                    if(data==1){
+                        content.remove();
+                    }else{
+                        alert('删除失败');
+                    }
+                },
+                error:function () {
+                    alert('删除失败,服务器出错');
+                }
+            })
+        }
+    }
     function showModal(id,title,update_date,create_date) {
-        var date = '<span>创建时间：'+create_date+'&nbsp;&nbsp;最后一次修改：'+update_date+'</span>';
+        var date = '<span style="margin-left: 10px">创建时间：'+create_date+'&nbsp;&nbsp;最后一次修改：'+update_date+'</span>';
         var content = $("#content"+id).html();
         $('#myModalLabel').html(title);
         $('#myModalbody').html(content);

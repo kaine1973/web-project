@@ -26,7 +26,7 @@ public class UserService {
         } catch (SQLException e) {
             ri.setStatus(-1);
             ri.setMsg("系统异常"+e.getMessage());
-            System.out.println(e.getMessage()+e.getStackTrace());
+            ri.setT(null);
         }
         return ri;
     }
@@ -47,7 +47,6 @@ public class UserService {
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage()+e.getStackTrace());
             ri.setStatus(-1);
             ri.setMsg("系统异常" + e.getMessage());
             ri.setT(null);

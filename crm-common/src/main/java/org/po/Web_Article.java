@@ -71,4 +71,16 @@ public class Web_Article {
         this.update_date = update_date;
         this.uid = uid;
     }
+
+    @Override
+    public String toString() {
+        return "Web_Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", create_date=" + create_date +
+                ", update_date=" + update_date +
+                ", uid=" + uid +
+                '}';
+    }
 }

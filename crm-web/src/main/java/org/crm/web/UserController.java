@@ -9,13 +9,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 
 @WebServlet("/userMgr.do")
+@MultipartConfig
 public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +24,6 @@ public class UserController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String act = request.getParameter("act");
-        System.out.println(act);
         if ("login".equals(act)) {
             login(request, response);
             return;
@@ -41,7 +39,95 @@ public class UserController extends HttpServlet {
             }
             response.sendRedirect("login.jsp");
             return;
+        }else if("update".equals(act)){
+            update(request,response);
+        }else if("editpwd".equals(act)){
+            editpwd(request,response);
         }
+    }
+
+    private void editpwd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pwd = request.getParameter("pwd");
+        String newpwd = request.getParameter("newpwd");
+        String newpwdrepeat = request.getParameter("newpwdrepeat");
+        Web_User user = (Web_User) request.getSession().getAttribute("user");
+        if(StringUtil.isNullorEmpty(pwd)||StringUtil.isNullorEmpty(newpwd)||StringUtil.isNullorEmpty(newpwdrepeat)){
+            return;
+        }
+        if(!newpwd.equals(newpwdrepeat)){
+            request.setAttribute("result","新密码不一致");
+            request.getRequestDispatcher("password.jsp").forward(request,response);
+            return;
+        }
+        pwd = StringUtil.encypt(pwd);
+        newpwd = StringUtil.encypt(newpwd);
+        String sql = "SELECT * FROM WEB_USER WHERE ID = ? AND PWD = ?";
+        ResultInfo<List<Web_User>> query = UserService.query(sql, new Object[]{user.getId(), pwd});
+        if(query.getStatus()<1){
+            request.setAttribute("result","旧密码不正确");
+            request.getRequestDispatcher("password.jsp").forward(request,response);
+            return;
+        }else {
+            String sql1 = "UPDATE WEB_USER SET PWD = ? WHERE ID = ?";
+            ResultInfo<List<Web_User>> update = UserService.update(sql1, new Object[]{newpwd, user.getId()});
+            if(update.getStatus()>0){
+                response.sendRedirect("login.jsp");
+            }
+        }
+
+
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Web_User u = (Web_User) request.getSession().getAttribute("user");
+        String nick = request.getParameter("nick");
+        String age = request.getParameter("age");
+        String mood = request.getParameter("mood");
+        Part part = request.getPart("head");
+        List<Object> params = new ArrayList<Object>();
+        String fileName = "";
+        if(part!=null) {
+            fileName += part.getSubmittedFileName();
+        }
+        int id = u.getId();
+        String sql = "UPDATE Web_user SET NICK = ? , HEAD = ? , MOOD = ? , age = ? WHERE ID = ?";
+        if(StringUtil.isNullorEmpty(nick)) {
+            params.add(u.getNick());
+        }else {
+            params.add(nick);
+            u.setNick(nick);
+        }
+        if(!StringUtil.isNullorEmpty(fileName)) {
+            String path = request.getServletContext().getRealPath("/head")+"/"+fileName;
+            try {
+                part.write(path);
+                u.setHead(fileName);
+                params.add(fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            params.add(u.getHead());
+        }
+        if(StringUtil.isNullorEmpty(mood)) {
+            params.add(u.getMood());
+        }else {
+            params.add(mood);
+            u.setMood(mood);
+        }
+
+        if (StringUtil.isNullorEmpty(age)){
+            params.add(18);
+        }else{
+            params.add(Byte.valueOf(age));
+            u.setAge(Byte.valueOf(age));
+        }
+        params.add(id);
+        ResultInfo<List<Web_User>> result = UserService.update(sql, params.toArray());
+        if(result.getStatus()>0){
+            request.getSession().setAttribute("user",u);
+        }
+        request.getRequestDispatcher("info.jsp").forward(request,response);
     }
 
     public void register(HttpServletRequest request, HttpServletResponse response) {

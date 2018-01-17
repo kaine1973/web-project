@@ -44,11 +44,9 @@ public class AutoLogin implements Filter {
         String sql = "SELECT ID,UNAME,PWD,AGE,NICK,HEAD,MOOD FROM WEB_USER WHERE UNAME = ? AND PWD = ?";
 
         ResultInfo<List<Web_User>> res = UserService.query(sql, new Object[]{name, pwd});
-        System.out.println(res.getT());
         if(res.getT()!=null){
             List<Web_User> t = res.getT();
             Web_User tu = t.iterator().next();
-            System.out.println(tu.getUname());
             request.getSession().setAttribute("user", tu);
             request.setAttribute("result",res);
             response.sendRedirect("main.jsp");
